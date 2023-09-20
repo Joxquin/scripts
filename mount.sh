@@ -1,4 +1,39 @@
 #!/sbin/sh
+# For AB devices
+    if [ "$dynamic" = "true" ]; then
+        ui_print "* - Particion dinamica detectada!           *"
+        if [ ! -z "$active_slot" ]; then
+            system_block=/dev/block/mapper/system$active_slot
+            product_block=/dev/block/mapper/product$active_slot
+            system_ext_block=/dev/block/mapper/system_ext$active_slot
+            vendor_block=/dev/block/mapper/vendor$active_slot
+        else
+            system_block=/dev/block/mapper/system
+            product_block=/dev/block/mapper/product
+            system_ext_block=/dev/block/mapper/system_ext
+            vendor_block=/dev/block/mapper/vendor
+        fi
+        blockdev --setrw $system_block
+        blockdev --setrw $product_block
+        blockdev --setrw $system_ext_block
+        blockdev --setrw $vendor_block
+    else
+        if [ ! -z "$active_slot" ]; then
+            system_block=$(cat /etc/recovery.fstab | grep -o '/dev/[^ ]*system' | cut -f -1 | head -1)$active_slot
+            product_block=$(cat /etc/recovery.fstab | grep -o '/dev/[^ ]*product' | cut -f -1 | head -1)$active_slot
+            ui_print "- SYSTEM: $system_block"
+            if [ ! -z "$product_block" ]; then
+                ui_print "- PRODUCT: $product_block"
+            fi
+        else
+            system_block=$(cat /etc/recovery.fstab | grep -o '/dev/[^ ]*system' | cut -f -1 | head -1)
+            product_block=$(cat /etc/recovery.fstab | grep -o '/dev/[^ ]*product' | cut -f -1 | head -1)
+            ui_print "- SYSTEM: $system_block"
+            if [ ! -z "$product_block" ]; then
+                ui_print "- PRODUCT: $product_block"
+            fi
+        fi
+    fi
 
 begin_mounting() {
   $BOOTMODE && return 1;
