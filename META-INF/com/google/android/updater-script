@@ -1,9 +1,9 @@
 ui_print("*---------------------------------------*");
 ui_print("*        --------------------           *");             
-ui_print("*        [Launcher Name]                *"); 
-ui_print("");
+ui_print("*        [Template]                     *"); 
+ui_print("*                                       *");
 ui_print("*        ----------------------         *");
-ui_print("*        Version : [BETA]               *");
+ui_print("*        Version : [*]                  *");
 ui_print("*        ----------------------         *");
 
 set_progress(0.10);
@@ -172,8 +172,6 @@ set_perm_recursive(0, 0, 0755, 0644, "/product/priv-app");
 
 set_progress(0.80);
 
-ui_print("*        Recovery Version By            *");
-ui_print("*        ROHIT and JA_Joxquin           *");
 ui_print("*        -------------------------      *");
 ui_print("*        Unmounting Partitions          *");
 ui_print("*        ---------------------          *");
