@@ -1,0 +1,186 @@
+ui_print("*---------------------------------------*");
+ui_print("*        --------------------           *");             
+ui_print("*        [Launcher Name]                *"); 
+ui_print("");
+ui_print("*        ----------------------         *");
+ui_print("*        Version : [BETA]               *");
+ui_print("*        ----------------------         *");
+
+set_progress(0.10);
+
+ui_print("*        Mounting Partitions            *");
+ui_print("*        -------------------            *");
+package_extract_file("mount_read&write.sh", "/tmp/mount_read&write.sh");
+set_perm(0, 0, 0777, "/tmp/mount_read&write.sh");
+run_program("/tmp/mount_read&write.sh", "");
+delete("/tmp/mount_read&write.sh");
+package_extract_file("busybox", "/sbin/busybox");
+set_perm_recursive(0, 0, 0777, 0777,  "/sbin/busybox");
+
+run_program("/sbin/busybox", "mount", "/system");
+run_program("/sbin/busybox", "mount", "/system_root");
+run_program("/sbin/busybox", "mount", "/product");
+run_program("/sbin/busybox", "mount", "/system_ext");
+
+package_extract_file("mount.sh", "/tmp/mount.sh");
+package_extract_file("unmount.sh", "/tmp/unmount.sh");
+set_metadata("/tmp/mount.sh", "uid", 0, "gid", 0, "mode", 0755);
+set_metadata("/tmp/unmount.sh", "uid", 0, "gid", 0, "mode", 0755);
+run_program("/tmp/mount.sh");
+
+set_progress(0.30);
+
+ui_print("*        Deleting Resources             *");
+ui_print("*        ------------------             *");
+#################################
+
+delete_recursive("/system/system/product/overlay/ThemedIconsOverlay");
+delete_recursive("/system/system/product/overlay/PixelRecentsProvider");
+delete_recursive("/system/system/product/overlay/QuickSwitchOverlay");
+
+#################################
+
+delete_recursive("/system/system/priv-app/AsusLauncherDev");
+delete_recursive("/system/system/priv-app/Lawnchair");
+delete_recursive("/system/system/priv-app/NexusLauncherPrebuilt");
+delete_recursive("/system/system/product/priv-app/ParanoidQuickStep");
+delete_recursive("/system/system/product/priv-app/ShadyQuickStep");
+delete_recursive("/system/system/product/priv-app/TrebuchetQuickStep");
+delete_recursive("/system/system/product/priv-app/NexusLauncherRelease");
+delete_recursive("/system/system/product/overlay/PixelLauncherIconsOverlay");
+delete_recursive("/system/system/system_ext/priv-app/NexusLauncherPrebuilt");
+delete_recursive("/system/system/system_ext/priv-app/PixelLauncherRelease");
+delete_recursive("/system/system/system_ext/priv-app/TrebuchetQuickStep");
+delete_recursive("/system/system/priv-app/Lawnchair");
+delete_recursive("/system/system/priv-app/Lawnicons");
+delete_recursive("/system/system/priv-app/Lawnfeed");
+delete_recursive("/system/system/system_ext/priv-app/Launcher3QuickStep");
+
+#################################
+
+delete_recursive("/system_root/system/priv-app/AsusLauncherDev");
+delete_recursive("/system_root/system/priv-app/Lawnchair");
+delete_recursive("/system_root/system/priv-app/NexusLauncherPrebuilt");
+delete_recursive("/system_root/system/system_ext/priv-app/PixelLauncherRelease");
+delete_recursive("/system_root/system/product/priv-app/ParanoidQuickStep");
+delete_recursive("/system_root/system/product/priv-app/ShadyQuickStep");
+delete_recursive("/system_root/system/product/priv-app/TrebuchetQuickStep");
+delete_recursive("/system_root/system/product/priv-app/NexusLauncherRelease");
+delete_recursive("/system_root/system/product/overlay/PixelLauncherIconsOverlay");
+delete_recursive("/system_root/system/system_ext/priv-app/NexusLauncherPrebuilt");
+delete_recursive("/system_root/system/system_ext/priv-app/TrebuchetQuickStep");
+delete_recursive("/system_root/system/priv-app/Lawnchair");
+delete_recursive("/system_root/system/priv-app/Lawnicons");
+delete_recursive("/system_root/system/priv-app/Lawnfeed");
+delete_recursive("/system_root/system/system_ext/priv-app/Launcher3QuickStep");
+
+#################################
+delete_recursive("/product/priv-app/ParanoidQuickStep");
+delete_recursive("/product/priv-app/ShadyQuickStep");
+delete_recursive("/product/priv-app/TrebuchetQuickStep");
+delete_recursive("/product/priv-app/NexusLauncherRelease");
+delete_recursive("/product/overlay/PixelLauncherIconsOverlay");
+delete_recursive("/product/overlay/ThemedIconsOverlay");
+delete_recursive("/product/overlay/PixelRecentsProvider");
+delete_recursive("/product/overlay/QuickSwitchOverlay");
+
+#################################
+delete_recursive("/system_ext/priv-app/NexusLauncherPrebuilt");
+delete_recursive("/system_ext/priv-app/PixelLauncherRelease");
+delete_recursive("/system_ext/priv-app/TrebuchetQuickStep");
+delete_recursive("/system_ext/priv-app/Lawnchair");
+delete_recursive("/system_ext/priv-app/Lawnicons");
+delete_recursive("/system_ext/priv-app/Launcher3QuickStep");
+
+#################################
+
+delete_recursive("/system/system/bin/aosp_enhancer");
+delete_recursive("/system_root/system/bin/aosp_enhancer");
+delete_recursive("/system/bin/aosp_enhancer");
+delete_recursive("/system/system/product/overlay/PixelRecentsProvider");
+delete_recursive("/system_root/system/product/overlay/PixelRecentsProvider");
+delete_recursive("/product/overlay/PixelRecentsProvider");
+delete_recursive("/system/system/product/overlay/ThemedIconsOverlay");
+delete_recursive("/system_root/system/product/overlay/ThemedIconsOverlay");
+delete_recursive("/product/overlay/ThemedIconsOverlay");
+
+set_progress(0.50);
+
+#################################
+ui_print("*        Copying Files                  *");
+ui_print("*        -------------                  *");
+package_extract_dir("system", "/system/system");
+package_extract_dir("system", "/system_root/system");
+package_extract_dir("system/product", "/product");
+package_extract_dir("system/product", "system_root/system/product");
+package_extract_dir("system/system_ext", "/system_ext");
+package_extract_dir("system/system_ext", "/system_root/system/system_ext");
+package_extract_dir("product", "/product");
+package_extract_dir("system_ext", "/system_ext");
+
+set_progress(0.70);
+
+ui_print("*        Setting Permissions            *");
+ui_print("*        -------------------            *");
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system/system_ext/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system/system_ext/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/product/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/product/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system_ext/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system_ext/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/product/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/product/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_ext/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_ext/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/product/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/product/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system/system_ext/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system/system_ext/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/product/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system/system/product/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system_ext/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system_ext/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/product/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_root/system/product/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/system_ext/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/system_ext/priv-app");
+
+set_perm_recursive(0, 0, 0755, 0644, "/product/framework");
+set_perm_recursive(0, 0, 0755, 0644, "/product/priv-app");
+
+set_progress(0.80);
+
+ui_print("*        Recovery Version By            *");
+ui_print("*        ROHIT and JA_Joxquin           *");
+ui_print("*        -------------------------      *");
+ui_print("*        Unmounting Partitions          *");
+ui_print("*        ---------------------          *");
+run_program("/sbin/busybox", "umount", "/system");
+run_program("/sbin/busybox", "umount", "/system_root");
+run_program("/sbin/busybox", "umount", "/product");
+run_program("/sbin/busybox", "umount", "/system_ext");
+run_program("/tmp/unmount.sh");
+ui_print("*---------------------------------------*");
+set_progress(1.00);
