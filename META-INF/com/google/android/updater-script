@@ -79,6 +79,7 @@ delete_recursive("/product/priv-app/ParanoidQuickStep");
 delete_recursive("/product/priv-app/ShadyQuickStep");
 delete_recursive("/product/priv-app/TrebuchetQuickStep");
 delete_recursive("/product/priv-app/NexusLauncherRelease");
+delete_recursive("/product/priv-app/Lawnchair");
 delete_recursive("/product/overlay/PixelLauncherIconsOverlay");
 delete_recursive("/product/overlay/ThemedIconsOverlay");
 delete_recursive("/product/overlay/PixelRecentsProvider");
